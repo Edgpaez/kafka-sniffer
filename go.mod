@@ -1,4 +1,4 @@
-module github.com/d-ulyanov/kafka-sniffer
+module github.com/Edgpaez/kafka-sniffer
 
 go 1.13
 
