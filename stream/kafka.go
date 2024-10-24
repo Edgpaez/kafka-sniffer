@@ -106,6 +106,12 @@ func (h *KafkaStream) run() {
 				// add consumer and topic relation info into metric
 				h.metricsStorage.AddConsumerTopicRelationInfo(h.net.Src().String(), topic)
 			}
+		case *kafka.OffsetFetchRequest:
+			if h.verbose {
+				for _, topic := range body.Topics {
+					log.Printf("client %s:%s joined group %s to read topic %s", h.net.Src(), h.transport.Src(), body.GroupId, topic.Name)
+				}
+			}
 		}
 	}
 }

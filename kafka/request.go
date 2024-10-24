@@ -161,6 +161,8 @@ func allocateBody(key, version int16) ProtocolBody {
 		return &ProduceRequest{}
 	case 1:
 		return &FetchRequest{Version: version}
+	case 9:
+		return &OffsetFetchRequest{}
 	}
 	return nil
 }
