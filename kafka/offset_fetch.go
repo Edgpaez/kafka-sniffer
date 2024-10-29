@@ -26,7 +26,7 @@ func (r *OffsetFetchRequest) Decode(pd PacketDecoder, version int16) error {
 		if err != nil {
 			return err
 		}
-		r.Topics = make([]OffsetFetchRequestTopic, 0, topicLength)
+		r.Topics = []OffsetFetchRequestTopic{}
 		for i := 0; i < topicLength; i++ {
 			name, err := pd.getString()
 			if err != nil {
@@ -37,7 +37,7 @@ func (r *OffsetFetchRequest) Decode(pd PacketDecoder, version int16) error {
 			if err != nil {
 				return err
 			}
-			indexes := make([]int32, 0, indexesLength)
+			indexes := []int32{}
 			for j := 0; j < indexesLength; j++ {
 				index, err := pd.getInt32()
 				if err != nil {

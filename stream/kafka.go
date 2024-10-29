@@ -112,6 +112,12 @@ func (h *KafkaStream) run() {
 					log.Printf("client %s:%s joined group %s to read topic %s", h.net.Src(), h.transport.Src(), body.GroupId, topic.Name)
 				}
 			}
+		case *kafka.OffsetCommitRequest:
+			if h.verbose {
+				for _, topic := range body.Topics {
+					log.Printf("client %s:%s committed offset to group %s of topic %s", h.net.Src(), h.transport.Src(), body.GroupId, topic.Name)
+				}
+			}
 		}
 	}
 }
