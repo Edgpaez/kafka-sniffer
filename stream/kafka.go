@@ -59,9 +59,6 @@ func (h *KafkaStream) run() {
 
 	buf := bufio.NewReaderSize(&h.r, 2<<15) // 65k
 
-	// add new client ip to metric
-	h.metricsStorage.AddActiveConnectionsTotal(h.net.Src().String())
-
 	for {
 		req, readBytes, err := kafka.DecodeRequest(buf)
 		if err == io.EOF || err == io.ErrUnexpectedEOF {
@@ -81,42 +78,24 @@ func (h *KafkaStream) run() {
 			continue
 		}
 
-		if h.verbose {
-			log.Printf("got request, key: %d, version: %d, correlationID: %d, clientID: %s\n", req.Key, req.Version, req.CorrelationID, req.ClientID)
-		}
-
-		req.Body.CollectClientMetrics(srcHost)
+		log.Printf("got request, key: %d, version: %d, correlationID: %d, clientID: %s\n", req.Key, req.Version, req.CorrelationID, req.ClientID)
 
 		switch body := req.Body.(type) {
 		case *kafka.ProduceRequest:
 			for _, topic := range body.ExtractTopics() {
-				if h.verbose {
-					log.Printf("client %s:%s wrote to topic %s", srcHost, srcPort, topic)
-				}
-
-				// add producer and topic relation info into metric
-				h.metricsStorage.AddProducerTopicRelationInfo(h.net.Src().String(), topic)
+				log.Printf("client %s:%s wrote to topic %s", srcHost, srcPort, topic)
 			}
 		case *kafka.FetchRequest:
 			for _, topic := range body.ExtractTopics() {
-				if h.verbose {
-					log.Printf("client %s:%s read from topic %s", h.net.Src(), h.transport.Src(), topic)
-				}
-
-				// add consumer and topic relation info into metric
-				h.metricsStorage.AddConsumerTopicRelationInfo(h.net.Src().String(), topic)
+				log.Printf("client %s:%s read from topic %s", h.net.Src(), h.transport.Src(), topic)
 			}
 		case *kafka.OffsetFetchRequest:
-			if h.verbose {
-				for _, topic := range body.Topics {
-					log.Printf("client %s:%s joined group %s to read topic %s", h.net.Src(), h.transport.Src(), body.GroupId, topic.Name)
-				}
+			for _, topic := range body.Topics {
+				log.Printf("client %s:%s joined group %s to read topic %s", h.net.Src(), h.transport.Src(), body.GroupId, topic.Name)
 			}
 		case *kafka.OffsetCommitRequest:
-			if h.verbose {
-				for _, topic := range body.Topics {
-					log.Printf("client %s:%s committed offset to group %s of topic %s", h.net.Src(), h.transport.Src(), body.GroupId, topic.Name)
-				}
+			for _, topic := range body.Topics {
+				log.Printf("client %s:%s committed offset to group %s of topic %s", h.net.Src(), h.transport.Src(), body.GroupId, topic.Name)
 			}
 		}
 	}
