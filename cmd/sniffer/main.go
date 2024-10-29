@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/d-ulyanov/kafka-sniffer/metrics"
-	"github.com/d-ulyanov/kafka-sniffer/stream"
+	"github.com/Edgpaez/kafka-sniffer/metrics"
+	"github.com/Edgpaez/kafka-sniffer/stream"
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/examples/util"

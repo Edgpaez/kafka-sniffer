@@ -1,8 +1,6 @@
 package kafka
 
-import (
-	"github.com/d-ulyanov/kafka-sniffer/metrics"
-)
+import "github.com/Edgpaez/kafka-sniffer/metrics"
 
 type fetchRequestBlock struct {
 	Version            int16

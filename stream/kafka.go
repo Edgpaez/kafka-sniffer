@@ -6,8 +6,8 @@ import (
 	"io"
 	"log"
 
-	"github.com/d-ulyanov/kafka-sniffer/kafka"
-	"github.com/d-ulyanov/kafka-sniffer/metrics"
+	"github.com/Edgpaez/kafka-sniffer/kafka"
+	"github.com/Edgpaez/kafka-sniffer/metrics"
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/tcpassembly"

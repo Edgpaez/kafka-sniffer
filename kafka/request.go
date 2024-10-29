@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/d-ulyanov/kafka-sniffer/metrics"
+	"github.com/Edgpaez/kafka-sniffer/metrics"
 )
 
 var (

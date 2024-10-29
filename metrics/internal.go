@@ -1,7 +1,7 @@
 package metrics
 
 import (
-	"github.com/d-ulyanov/kafka-sniffer/version"
+	"github.com/Edgpaez/kafka-sniffer/version"
 
 	"github.com/prometheus/client_golang/prometheus"
 )
